@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CMDB主机管理系统</title>
+    <link rel="icon" type="image/x-icon" class="js-site-favicon" href="/static/img/favicon.ico">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">主机管理系统</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="{%  url 'logout' %}">注销</a></li>
+            </ul>
+            <form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Search...">
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="{% block project_active %} {% endblock %}"><a href="{% url 'project' %}">项目信息 <span class="sr-only">(current)</span></a></li>
+                <li class="{% block idc_active %} {% endblock %}"><a href="#">机房信息</a></li>
+                <li class="{% block host_active %} {% endblock %}"><a href="{% url 'host_info' %}">主机信息</a></li>
+                <li><a href="#">域名信息</a></li>
+            </ul>
+
+            <ul class="nav nav-sidebar">
+                <li><a href="">自动发现</a></li>
+                <li><a href="">自动部署</a></li>
+                <li><a href="">监控</a></li>
+            </ul>
+        </div>
+
+        {% block main %}
+       此处可以定义默认的内容
+        {% endblock %}
+    </div>
+</div>
+
+
+</body>
+
+</html>
