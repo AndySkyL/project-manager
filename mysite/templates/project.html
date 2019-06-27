@@ -28,7 +28,7 @@
                             <td>{{ project.pk }}</td>
                             <td>{{ project.name }}</td>
                             <td>
-                                <a href="{% url 'del_project' project.pk %}" class="btn btn-danger btn-sm">删除</a>
+                                <a href="{% url 'delete' 'project' project.pk %}" class="btn btn-danger btn-sm">删除</a>
                                 <a href="{% url 'update_project' project.pk %}"
                                    class="btn btn-primary btn-sm">编辑</a>
 

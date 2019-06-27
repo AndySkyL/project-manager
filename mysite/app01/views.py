@@ -52,7 +52,7 @@ def login(request):
 
 @login_required
 def project(request):
-    projects = models.Publish.objects.all()
+    projects = models.Project.objects.all()
     return render(request, 'project.html', locals())
 
 
@@ -70,13 +70,13 @@ def add_project(request):
 
             return render(request, 'add_project.html', {'err_msg': err_msg})
 
-        object_project = models.Publish.objects.filter(name=new_project)
+        object_project = models.Project.objects.filter(name=new_project)
 
         if object_project:
             err_msg = '项目已经存在！'
 
         else:
-            models.Publish.objects.create(name=new_project)
+            models.Project.objects.create(name=new_project)
             return redirect('project')
     return render(request, 'add_project.html', {'err_msg': err_msg})
 
@@ -84,7 +84,10 @@ def add_project(request):
 @login_required
 def update_project(request, pk):
     err_msg = ''
-    obj = models.Publish.objects.get(pk=pk)
+    obj = models.Project.objects.get(pk=pk)
+    url = reverse('edit_pub', args=('1','100',))
+    print('=====================')
+    print(url)
 
     if request.method == 'POST':
         new_project = request.POST.get('new_project')
@@ -94,7 +97,7 @@ def update_project(request, pk):
 
             return render(request, 'update_project.html', {'pk': pk, 'obj': obj, 'err_msg': err_msg})
 
-        object_project = models.Publish.objects.filter(name=new_project)
+        object_project = models.Project.objects.filter(name=new_project)
 
         if object_project:
             err_msg = '项目已经存在!'
@@ -109,7 +112,7 @@ def update_project(request, pk):
 
 @login_required
 def del_project(request, pk):
-    obj = models.Publish.objects.get(pk=pk)
+    obj = models.Project.objects.get(pk=pk)
     obj.delete()
 
     return redirect(reverse('project'))
@@ -134,7 +137,7 @@ class Add_host(View):
     http_method_names = ['get', 'post']
 
     def get(self, request):
-        project_item = models.Publish.objects.all()
+        project_item = models.Project.objects.all()
         return render(request, 'add_host.html', {'project_item': project_item})
 
     def post(self, request):
@@ -143,17 +146,17 @@ class Add_host(View):
         pro_id = request.POST.get('pro')
 
         models.Hostlist.objects.create(hostname=hostname, ip_addr=ipaddr,
-                                       project=models.Publish.objects.get(pk=pro_id))
+                                       project=models.Project.objects.get(pk=pro_id))
         # models.Hostlist.objects.create(hostname=hostname, ip_addr=ipaddr, project_id=project)
 
-        return redirect(reverse('host_info'))
+        return redirect(reverse('hostlist'))
 
 
 class Edit_host(View):
     http_method_names = ['get', 'post']
 
     def get(self, request, pk):
-        project_item = models.Publish.objects.all()
+        project_item = models.Project.objects.all()
         obj_host = models.Hostlist.objects.get(pk=pk)
         return render(request, 'edit_host.html', {'pk': pk, 'obj_host': obj_host, 'project_item': project_item})
 
@@ -169,7 +172,7 @@ class Edit_host(View):
 
         obj_host.save()
 
-        return redirect(reverse('host_info'))
+        return redirect(reverse('hostlist'))
 
 
 class Del(View):
@@ -183,4 +186,7 @@ class Del(View):
     def get(self, request, table, pk):
         table_class = getattr(models, table.capitalize())
         table_class.objects.filter(pk=pk).delete()
-        return redirect(reverse('host_info'))
+        return redirect(reverse(table))
+
+
+

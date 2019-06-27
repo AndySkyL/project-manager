@@ -27,7 +27,7 @@ active
                             <td>{{ host.ip_addr }}</td>
                             <td>{{ host.project.name }}</td>
                             <td>
-                                <a href="{% url 'del' 'hostlist' host.pk %}" class="btn btn-danger btn-sm">删除</a>
+                                <a href="{% url 'delete' 'hostlist' host.pk %}" class="btn btn-danger btn-sm">删除</a>
                                 <a href="{% url 'edit_host' host.pk %}" class="btn btn-primary btn-sm">编辑</a>
                             </td>
                         </tr>
